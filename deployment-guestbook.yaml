@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guestbook
+  labels:
+    app: guestbook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: guestbook
+  template:
+    metadata:
+      labels:
+        app: guestbook
+    spec:
+      containers:
+      - name: guestbook
+        image: ibmcom/guestbook:v1
+        ports:
+        - name: http-server
+          containerPort: 3000
+        volumeMounts:
+        - name: volume1
+          mountPath: /mnt
+      volumes:
+      - name: volume1
+        persistentVolumeClaim:
+          claimName: mypvc
